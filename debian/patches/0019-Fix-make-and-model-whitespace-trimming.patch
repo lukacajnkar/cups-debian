@@ -1,0 +1,29 @@
+From: Michael R Sweet <msweet@msweet.org>
+Date: Fri, 15 Nov 2024 11:55:07 -0500
+Subject: Fix make-and-model whitespace trimming (Issue #1096)
+
+The trailing-whitespace loop that came with the CVE-2024-47175 hardening
+(0014) does not stop at the first non-space character, so it replaces every
+space in printer-make-and-model with a NUL. Generated IPP Everywhere PPDs
+then use only the first word as the make and "Printer" as the model, e.g.
+"Printer - IPP Everywhere" instead of "G3010 series - IPP Everywhere".
+
+Origin: upstream, https://github.com/OpenPrinting/cups/commit/5cc470c8d95df40f32e8a401b2946886c91b03d1
+Bug: https://github.com/OpenPrinting/cups/issues/1096
+Applied-Upstream: 2.4.12
+Last-Update: 2026-10-25
+---
+ cups/ppd-cache.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+--- a/cups/ppd-cache.c
++++ b/cups/ppd-cache.c
+@@ -3294,6 +3294,8 @@
+       mptr --;
+       if (*mptr == ' ')
+ 	*mptr = '\0';
++      else
++        break;
+     }
+
+     if (!make[0])

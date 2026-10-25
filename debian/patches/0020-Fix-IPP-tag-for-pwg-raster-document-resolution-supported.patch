@@ -1,0 +1,31 @@
+From: Sergio Gómez <sergio.gdr@collabora.corp-partner.google.com>
+Date: Tue, 14 Jan 2025 18:03:15 -0500
+Subject: ppd-cache.c: Fix IPP tag for pwg-raster-document-resolution-supported
+
+pwg-raster-document-resolution-supported has the resolution syntax, but the
+check added in 2.4.8 looks it up as a keyword, so it never matches and
+is_pwg is always false. Printers whose only raster format is PWG Raster
+(for example the Canon G3010 series, document-format-supported =
+application/octet-stream,image/pwg-raster) are then rejected with "Printer
+does not support required IPP attributes or document formats." by
+"lpadmin -m everywhere" and by CUPS-Create-Local-Printer, which creates the
+temporary queues used by print dialogs.
+
+Origin: upstream, https://github.com/OpenPrinting/cups/commit/63f5c71f0bd4ec1692162e153f033c120417c6af
+Applied-Upstream: 2.4.12
+Last-Update: 2026-10-25
+---
+ cups/ppd-cache.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/cups/ppd-cache.c
++++ b/cups/ppd-cache.c
+@@ -3545,7 +3545,7 @@
+     is_apple = ippContainsString(attr, "image/urf") && (ippFindAttribute(supported, "urf-supported", IPP_TAG_KEYWORD) != NULL);
+     is_pdf   = ippContainsString(attr, "application/pdf");
+     is_pwg   = ippContainsString(attr, "image/pwg-raster") && !is_apple &&
+-	       (ippFindAttribute(supported, "pwg-raster-document-resolution-supported", IPP_TAG_KEYWORD) != NULL) &&
++	       (ippFindAttribute(supported, "pwg-raster-document-resolution-supported", IPP_TAG_RESOLUTION) != NULL) &&
+ 	       (ippFindAttribute(supported, "pwg-raster-document-type-supported", IPP_TAG_KEYWORD) != NULL);
+
+     if (ippContainsString(attr, "image/jpeg"))

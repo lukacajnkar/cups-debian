@@ -1,3 +1,18 @@
+cups (2.4.10-3+deb13u3) trixie; urgency=medium
+
+  * Backport two upstream fixes (2.4.12) for the IPP Everywhere PPD
+    generator, which trixie's 2.4.10 cannot otherwise use for some
+    driverless printers:
+    - 0019: fix make-and-model whitespace trimming from the CVE-2024-47175
+      hardening, which reduced generated PPD names to "Printer"
+      (upstream #1096).
+    - 0020: look up pwg-raster-document-resolution-supported with the
+      resolution tag, so printers that only support PWG Raster are no
+      longer rejected with "Printer does not support required IPP
+      attributes or document formats."
+
+ -- lukacajnkar <luka.cajnkar@gmail.com>  Sun, 25 Oct 2026 13:56:36 +0100
+
 cups (2.4.10-3+deb13u2) trixie; urgency=high
 
   * add 0018-cgi-Fix-checkbox-support-fixes.patch 

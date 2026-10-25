@@ -17,3 +17,5 @@
 0017-CVE-2025-58364-fix-remote-DoS-via-null-dereference.patch
 
 0018-cgi-Fix-checkbox-support-fixes.patch
+0019-Fix-make-and-model-whitespace-trimming.patch
+0020-Fix-IPP-tag-for-pwg-raster-document-resolution-supported.patch
