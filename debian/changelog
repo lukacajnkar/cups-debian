@@ -1,3 +1,12 @@
+cups (2.4.10-3+deb13u2) trixie; urgency=high
+
+  * add 0018-cgi-Fix-checkbox-support-fixes.patch 
+    Thanks to Elena ``of Valhalla'' for finding the upstream commit
+    and asking Simone Piccardi to confirm that it works now.
+    (Closes: #1109471)
+
+ -- Thorsten Alteholz <debian@alteholz.de>  Wed, 05 Nov 2025 15:45:05 +0100
+
 cups (2.4.10-3+deb13u1) trixie-security; urgency=high
 
   * CVE-2025-58060
